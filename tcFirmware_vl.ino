@@ -47,8 +47,7 @@
 
 
 #include <CapacitiveSensor.h>
-
-
+#include <digitalWriteFast.h>
 
 
 
@@ -177,7 +176,7 @@ byte activeTouchChannelRight = 99;
 
 // TOUCH SWITCH ADJUSTMENT
 // -----------------------
-byte switchSamples = 3;   // LARGER NUMBER PRODUCES CHEANER TRIGGERS ::: SMALLER NUMBER PRODUCES FASTER RESPONSE
+byte switchSamples = 3;   // LARGER NUMBER PRODUCES CLEANER TRIGGERS ::: SMALLER NUMBER PRODUCES FASTER RESPONSE
 int switchThreshold = 400;   // VALUE ABOVE NOISE FLOOR NEEDED TO TRIGGER CHANNEL
 byte axisSamples = 3;   // LARGER NUMBER PREVENTS THE Y-AXIS FROM JUMPING AROUND ::: SMALLER NUMBER PRODUCES FASTER RESPONSE
 float axisIndividualSmooth = .4;   // SMOOTH THE INDIVIDUAL Y-AXIS PAD READS
@@ -268,8 +267,6 @@ float leftYAxisCheck = 0;
 bool lastYAxisUsed = 0;
 
 
-
-
 // -------------------------------------------------------------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -285,18 +282,18 @@ void autoCalibrateSwitch(byte z, bool useLed)
     
   if (useLed == 1)
   {
-    digitalWrite (channelOutput[0], 0); // TURN OFF LED 5
-    digitalWrite (channelOutput[1], 0); // TURN OFF LED 6
-    digitalWrite (channelOutput[2], 0); // TURN OFF LED 7
-    digitalWrite (channelOutput[3], 0); // TURN OFF LED 8
-    digitalWrite (channelOutput[4], 0); // TURN OFF LED 9
-    digitalWrite (channelOutput[5], 0); // TURN OFF LED 5
-    digitalWrite (channelOutput[6], 0); // TURN OFF LED 6
-    digitalWrite (channelOutput[7], 0); // TURN OFF LED 7
-    digitalWrite (channelOutput[8], 0); // TURN OFF LED 8
-    digitalWrite (channelOutput[9], 0); // TURN OFF LED 9
+    digitalWriteFast (channelOutput[0], 0); // TURN OFF LED 5
+    digitalWriteFast (channelOutput[1], 0); // TURN OFF LED 6
+    digitalWriteFast (channelOutput[2], 0); // TURN OFF LED 7
+    digitalWriteFast (channelOutput[3], 0); // TURN OFF LED 8
+    digitalWriteFast (channelOutput[4], 0); // TURN OFF LED 9
+    digitalWriteFast (channelOutput[5], 0); // TURN OFF LED 5
+    digitalWriteFast (channelOutput[6], 0); // TURN OFF LED 6
+    digitalWriteFast (channelOutput[7], 0); // TURN OFF LED 7
+    digitalWriteFast (channelOutput[8], 0); // TURN OFF LED 8
+    digitalWriteFast (channelOutput[9], 0); // TURN OFF LED 9
 
-    digitalWrite (channelOutput[z], 1); // TURN ON CHANNEL LED
+    digitalWriteFast (channelOutput[z], 1); // TURN ON CHANNEL LED
 
     delay(30);
   }
@@ -402,27 +399,27 @@ void checkCapSwitchLeft(byte x)
         {
           if ((noteMode == 0 && activeSequenceStepMono == 99) || (noteMode == 1 && activeSequenceStepLeft == 99))
           {
-            digitalWrite(channelOutput[0], 0); // TURN OFF LED 0
-            digitalWrite(channelOutput[1], 0); // TURN OFF LED 1
-            digitalWrite(channelOutput[2], 0); // TURN OFF LED 2
-            digitalWrite(channelOutput[3], 0); // TURN OFF LED 3
-            digitalWrite(channelOutput[4], 0); // TURN OFF LED 4
+            digitalWriteFast(channelOutput[0], 0); // TURN OFF LED 0
+            digitalWriteFast(channelOutput[1], 0); // TURN OFF LED 1
+            digitalWriteFast(channelOutput[2], 0); // TURN OFF LED 2
+            digitalWriteFast(channelOutput[3], 0); // TURN OFF LED 3
+            digitalWriteFast(channelOutput[4], 0); // TURN OFF LED 4
 
             if (noteMode == 0) // MONO MODE
             {
-              digitalWrite (channelOutput[5], 0); // TURN OFF LED 5
-              digitalWrite (channelOutput[6], 0); // TURN OFF LED 6
-              digitalWrite (channelOutput[7], 0); // TURN OFF LED 7
-              digitalWrite (channelOutput[8], 0); // TURN OFF LED 8
-              digitalWrite (channelOutput[9], 0); // TURN OFF LED 9
+              digitalWriteFast (channelOutput[5], 0); // TURN OFF LED 5
+              digitalWriteFast (channelOutput[6], 0); // TURN OFF LED 6
+              digitalWriteFast (channelOutput[7], 0); // TURN OFF LED 7
+              digitalWriteFast (channelOutput[8], 0); // TURN OFF LED 8
+              digitalWriteFast (channelOutput[9], 0); // TURN OFF LED 9
 
               activeChannelLeft = x; // SET ACTIVE LEFT CHANNEL
               activeChannelAll = x; // SET ACTIVE ALL CHANNEL
 
-              digitalWrite(allSelectorA, 0);
-              digitalWrite(allSelectorB, 1);
-              digitalWrite(allSelectorC, 0);
-              digitalWrite(allSelectorD, 1);
+              digitalWriteFast(allSelectorA, 0);
+              digitalWriteFast(allSelectorB, 1);
+              digitalWriteFast(allSelectorC, 0);
+              digitalWriteFast(allSelectorD, 1);
             }
 
             else // if (noteMode == 1) // DUO MODE
@@ -431,11 +428,11 @@ void checkCapSwitchLeft(byte x)
               activeChannelAll = x; // SET ACTIVE ALL CHANNEL
             }
 
-            if (x == 0) digitalWrite(channelOutput[0], 1); // TURN ON ACTIVE LEFT LED
-            else if (x == 1) digitalWrite(channelOutput[1], 1); // TURN ON ACTIVE LEFT LED
-            else if (x == 2) digitalWrite(channelOutput[2], 1); // TURN ON ACTIVE LEFT LED
-            else if (x == 3) digitalWrite(channelOutput[3], 1); // TURN ON ACTIVE LEFT LED
-            else digitalWrite(channelOutput[4], 1); // TURN ON ACTIVE LEFT LED
+            if (x == 0) digitalWriteFast(channelOutput[0], 1); // TURN ON ACTIVE LEFT LED
+            else if (x == 1) digitalWriteFast(channelOutput[1], 1); // TURN ON ACTIVE LEFT LED
+            else if (x == 2) digitalWriteFast(channelOutput[2], 1); // TURN ON ACTIVE LEFT LED
+            else if (x == 3) digitalWriteFast(channelOutput[3], 1); // TURN ON ACTIVE LEFT LED
+            else digitalWriteFast(channelOutput[4], 1); // TURN ON ACTIVE LEFT LED
 
             gateTimerLeft = 0;
             if (noteMode == 0 || (noteMode == 1 && activeSequenceStepRight == 99)) gateTimerAll = 0;
@@ -443,20 +440,20 @@ void checkCapSwitchLeft(byte x)
             {
               if (gateOutputLeftActive == 1)
               {
-                digitalWrite(gateOutputLeft, 0);
+                digitalWriteFast(gateOutputLeft, 0);
                 delay(1);
               }
-              digitalWrite(gateOutputLeft, 1);
+              digitalWriteFast(gateOutputLeft, 1);
               gateOutputLeftActive = 1;
 
               if (activeSequenceStepRight == 99)
               {
-                if (gateOutputAllActive == 1) digitalWrite(gateOutputAll, 0);
-                if (gateOutputRightActive == 1) digitalWrite(gateOutputRight, 0);
+                if (gateOutputAllActive == 1) digitalWriteFast(gateOutputAll, 0);
+                if (gateOutputRightActive == 1) digitalWriteFast(gateOutputRight, 0);
                 if (gateOutputAllActive == 1 || gateOutputRightActive == 1) delay(1);
 
-                digitalWrite(gateOutputAll, 1);
-                digitalWrite(gateOutputRight, 0);
+                digitalWriteFast(gateOutputAll, 1);
+                digitalWriteFast(gateOutputRight, 0);
 
                 gateOutputAllActive = 1;
                 gateOutputRightActive = 1;
@@ -616,19 +613,19 @@ void checkCapSwitchLeft(byte x)
       
       if (noteMode == 0 && activeChannelAll == x)
       {
-        digitalWrite(gateOutputLeft, 0);
-        digitalWrite(gateOutputAll, 0);
+        digitalWriteFast(gateOutputLeft, 0);
+        digitalWriteFast(gateOutputAll, 0);
         gateOutputAllActive = 0;
         gateOutputLeftActive = 0;
       }
 
       else if (noteMode == 1 && activeChannelLeft == x)
       {
-        digitalWrite(gateOutputLeft, 0);
+        digitalWriteFast(gateOutputLeft, 0);
         gateOutputLeftActive = 0;
         if (activeSequenceStepRight == 99 && activeChannelAll == x)
         {
-          digitalWrite(gateOutputAll, 0);
+          digitalWriteFast(gateOutputAll, 0);
           gateOutputAllActive = 0;
         }
       }
@@ -904,27 +901,27 @@ void checkCapSwitchRight(byte x)
         {
           if ((noteMode == 0 && activeSequenceStepMono == 99) || (noteMode == 1 && activeSequenceStepRight == 99))
           {
-            digitalWrite(channelOutput[5], 0); // TURN OFF LED 5
-            digitalWrite(channelOutput[6], 0); // TURN OFF LED 6
-            digitalWrite(channelOutput[7], 0); // TURN OFF LED 7
-            digitalWrite(channelOutput[8], 0); // TURN OFF LED 8
-            digitalWrite(channelOutput[9], 0); // TURN OFF LED 9
+            digitalWriteFast(channelOutput[5], 0); // TURN OFF LED 5
+            digitalWriteFast(channelOutput[6], 0); // TURN OFF LED 6
+            digitalWriteFast(channelOutput[7], 0); // TURN OFF LED 7
+            digitalWriteFast(channelOutput[8], 0); // TURN OFF LED 8
+            digitalWriteFast(channelOutput[9], 0); // TURN OFF LED 9
 
             if (noteMode == 0) // MONO MODE
             {
-              digitalWrite (channelOutput[0], 0); // TURN OFF LED 0
-              digitalWrite (channelOutput[1], 0); // TURN OFF LED 1
-              digitalWrite (channelOutput[2], 0); // TURN OFF LED 2
-              digitalWrite (channelOutput[3], 0); // TURN OFF LED 3
-              digitalWrite (channelOutput[4], 0); // TURN OFF LED 4
+              digitalWriteFast (channelOutput[0], 0); // TURN OFF LED 0
+              digitalWriteFast (channelOutput[1], 0); // TURN OFF LED 1
+              digitalWriteFast (channelOutput[2], 0); // TURN OFF LED 2
+              digitalWriteFast (channelOutput[3], 0); // TURN OFF LED 3
+              digitalWriteFast (channelOutput[4], 0); // TURN OFF LED 4
 
               activeChannelRight = x+5; // SET ACTIVE RIGHT CHANNEL
               activeChannelAll = x+5; // SET ACTIVE ALL CHANNEL
 
-              digitalWrite(allSelectorA, 1);
-              digitalWrite(allSelectorB, 0);
-              digitalWrite(allSelectorC, 1);
-              digitalWrite(allSelectorD, 0);
+              digitalWriteFast(allSelectorA, 1);
+              digitalWriteFast(allSelectorB, 0);
+              digitalWriteFast(allSelectorC, 1);
+              digitalWriteFast(allSelectorD, 0);
             }
 
             else // if (noteMode == 1) // DUO MODE
@@ -933,11 +930,11 @@ void checkCapSwitchRight(byte x)
               activeChannelAll = x+5; // SET ACTIVE ALL CHANNEL
             }
 
-            if (x == 0) digitalWrite(channelOutput[5], 1); // TURN ON ACTIVE RIGHT LED
-            else if (x == 1) digitalWrite(channelOutput[6], 1); // TURN ON ACTIVE RIGHT LED
-            else if (x == 2) digitalWrite(channelOutput[7], 1); // TURN ON ACTIVE RIGHT LED
-            else if (x == 3) digitalWrite(channelOutput[8], 1); // TURN ON ACTIVE RIGHT LED
-            else digitalWrite(channelOutput[9], 1); // TURN ON ACTIVE RIGHT LED
+            if (x == 0) digitalWriteFast(channelOutput[5], 1); // TURN ON ACTIVE RIGHT LED
+            else if (x == 1) digitalWriteFast(channelOutput[6], 1); // TURN ON ACTIVE RIGHT LED
+            else if (x == 2) digitalWriteFast(channelOutput[7], 1); // TURN ON ACTIVE RIGHT LED
+            else if (x == 3) digitalWriteFast(channelOutput[8], 1); // TURN ON ACTIVE RIGHT LED
+            else digitalWriteFast(channelOutput[9], 1); // TURN ON ACTIVE RIGHT LED
 
             gateTimerRight = 0;
             if (noteMode == 0 || (noteMode == 1 && activeSequenceStepLeft == 99)) gateTimerAll = 0;
@@ -945,23 +942,23 @@ void checkCapSwitchRight(byte x)
             {
               if (gateOutputRightActive == 1)
               {
-                digitalWrite(gateOutputRight, 0);
+                digitalWriteFast(gateOutputRight, 0);
                 delay(1);
               }
 
-              digitalWrite(gateOutputRight, 1);
+              digitalWriteFast(gateOutputRight, 1);
               gateOutputRightActive = 1;
 
               if (activeSequenceStepLeft == 99)
               {
                 if (gateOutputAllActive == 1)
                 {
-                  digitalWrite(gateOutputAll, 0);
+                  digitalWriteFast(gateOutputAll, 0);
                   delay(1);
                 }
 
-                digitalWrite(gateOutputAll, 1);
-                digitalWrite(gateOutputLeft, 0);
+                digitalWriteFast(gateOutputAll, 1);
+                digitalWriteFast(gateOutputLeft, 0);
                 gateOutputAllActive = 1;
                 gateOutputLeftActive = 0;
               }
@@ -1115,18 +1112,18 @@ void checkCapSwitchRight(byte x)
 
       if (noteMode == 0 && activeChannelAll == x+5)
       {
-        digitalWrite(gateOutputRight, 0);
-        digitalWrite(gateOutputAll, 0);
+        digitalWriteFast(gateOutputRight, 0);
+        digitalWriteFast(gateOutputAll, 0);
         gateOutputAllActive = 0;
         gateOutputRightActive = 0;
       }
       else if (noteMode == 1 && activeChannelRight == x+5)
       {
-        digitalWrite(gateOutputRight, 0);
+        digitalWriteFast(gateOutputRight, 0);
         gateOutputRightActive = 0;
         if (activeSequenceStepLeft == 99 && activeChannelAll == x+5)
         {
-          digitalWrite(gateOutputAll, 0);
+          digitalWriteFast(gateOutputAll, 0);
           gateOutputAllActive = 0;
         }
       }
@@ -1347,21 +1344,21 @@ void turnOffGates()
   if(gateTimerLeft != 0 && gateTimerLeft < clockTimer)
   {
     gateTimerLeft = 0;
-    digitalWrite(gateOutputLeft, 0);
+    digitalWriteFast(gateOutputLeft, 0);
     gateOutputLeftActive = 0;
   }
 
   if(gateTimerRight != 0 && gateTimerRight < clockTimer)
   {
     gateTimerRight = 0;
-    digitalWrite(gateOutputRight, 0);
+    digitalWriteFast(gateOutputRight, 0);
     gateOutputRightActive = 0;
   }
 
   if(gateTimerAll != 0 && gateTimerAll < clockTimer)
   {
     gateTimerAll = 0;
-    digitalWrite(gateOutputAll, 0);
+    digitalWriteFast(gateOutputAll, 0);
     gateOutputAllActive = 0;
   }
 }
@@ -1421,43 +1418,43 @@ void stepClock()
               else activeChannelRight = activeChannelAll;
               
 
-              digitalWrite (channelOutput[0], 0); // TURN OFF LED 0
-              digitalWrite (channelOutput[1], 0); // TURN OFF LED 1
-              digitalWrite (channelOutput[2], 0); // TURN OFF LED 2
-              digitalWrite (channelOutput[3], 0); // TURN OFF LED 3
-              digitalWrite (channelOutput[4], 0); // TURN OFF LED 4
-              digitalWrite (channelOutput[5], 0); // TURN OFF LED 5
-              digitalWrite (channelOutput[6], 0); // TURN OFF LED 6
-              digitalWrite (channelOutput[7], 0); // TURN OFF LED 7
-              digitalWrite (channelOutput[8], 0); // TURN OFF LED 8
-              digitalWrite (channelOutput[9], 0); // TURN OFF LED 9
+              digitalWriteFast (channelOutput[0], 0); // TURN OFF LED 0
+              digitalWriteFast (channelOutput[1], 0); // TURN OFF LED 1
+              digitalWriteFast (channelOutput[2], 0); // TURN OFF LED 2
+              digitalWriteFast (channelOutput[3], 0); // TURN OFF LED 3
+              digitalWriteFast (channelOutput[4], 0); // TURN OFF LED 4
+              digitalWriteFast (channelOutput[5], 0); // TURN OFF LED 5
+              digitalWriteFast (channelOutput[6], 0); // TURN OFF LED 6
+              digitalWriteFast (channelOutput[7], 0); // TURN OFF LED 7
+              digitalWriteFast (channelOutput[8], 0); // TURN OFF LED 8
+              digitalWriteFast (channelOutput[9], 0); // TURN OFF LED 9
 
               if(activeChannelAll < 5)
               {
-                digitalWrite(allSelectorA, 0);
-                digitalWrite(allSelectorB, 1);
-                digitalWrite(allSelectorC, 0);
-                digitalWrite(allSelectorD, 1);
+                digitalWriteFast(allSelectorA, 0);
+                digitalWriteFast(allSelectorB, 1);
+                digitalWriteFast(allSelectorC, 0);
+                digitalWriteFast(allSelectorD, 1);
               }
 
               else
               {
-                digitalWrite(allSelectorA, 1);
-                digitalWrite(allSelectorB, 0);
-                digitalWrite(allSelectorC, 1);
-                digitalWrite(allSelectorD, 0);
+                digitalWriteFast(allSelectorA, 1);
+                digitalWriteFast(allSelectorB, 0);
+                digitalWriteFast(allSelectorC, 1);
+                digitalWriteFast(allSelectorD, 0);
               }
 
-              if (activeChannelAll == 0) digitalWrite (channelOutput[0], 1); // TURN ON LED 0
-              else if (activeChannelAll == 1) digitalWrite (channelOutput[1], 1); // TURN ON LED 1
-              else if (activeChannelAll == 2) digitalWrite (channelOutput[2], 1); // TURN ON LED 2
-              else if (activeChannelAll == 3) digitalWrite (channelOutput[3], 1); // TURN ON LED 3
-              else if (activeChannelAll == 4) digitalWrite (channelOutput[4], 1); // TURN ON LED 4
-              else if (activeChannelAll == 5) digitalWrite (channelOutput[5], 1); // TURN ON LED 5
-              else if (activeChannelAll == 6) digitalWrite (channelOutput[6], 1); // TURN ON LED 6
-              else if (activeChannelAll == 7) digitalWrite (channelOutput[7], 1); // TURN ON LED 7
-              else if (activeChannelAll == 8) digitalWrite (channelOutput[8], 1); // TURN ON LED 8
-              else if (activeChannelAll == 9) digitalWrite (channelOutput[9], 1); // TURN ON LED 9
+              if (activeChannelAll == 0) digitalWriteFast(channelOutput[0], 1); // TURN ON LED 0
+              else if (activeChannelAll == 1) digitalWriteFast(channelOutput[1], 1); // TURN ON LED 1
+              else if (activeChannelAll == 2) digitalWriteFast(channelOutput[2], 1); // TURN ON LED 2
+              else if (activeChannelAll == 3) digitalWriteFast(channelOutput[3], 1); // TURN ON LED 3
+              else if (activeChannelAll == 4) digitalWriteFast(channelOutput[4], 1); // TURN ON LED 4
+              else if (activeChannelAll == 5) digitalWriteFast(channelOutput[5], 1); // TURN ON LED 5
+              else if (activeChannelAll == 6) digitalWriteFast(channelOutput[6], 1); // TURN ON LED 6
+              else if (activeChannelAll == 7) digitalWriteFast(channelOutput[7], 1); // TURN ON LED 7
+              else if (activeChannelAll == 8) digitalWriteFast(channelOutput[8], 1); // TURN ON LED 8
+              else if (activeChannelAll == 9) digitalWriteFast(channelOutput[9], 1); // TURN ON LED 9
 
               float readTime = millis();
 
@@ -1472,10 +1469,10 @@ void stepClock()
                 gateTimerLeft = gateLength + readTime;
                 if (gateOutputLeftActive == 1)
                 {
-                  digitalWrite(gateOutputLeft, 0);
+                  digitalWriteFast(gateOutputLeft, 0);
                   delay(1);
                 }
-                digitalWrite(gateOutputLeft, 1); // ENABLE LEFT GATE
+                digitalWriteFast(gateOutputLeft, 1); // ENABLE LEFT GATE
                 gateOutputLeftActive = 1;
               }
 
@@ -1488,20 +1485,20 @@ void stepClock()
                 gateTimerRight = gateLength + readTime;
                 if (gateOutputRightActive == 1)
                 {
-                  digitalWrite(gateOutputRight, 0);
+                  digitalWriteFast(gateOutputRight, 0);
                   delay(1);
                 }
-                digitalWrite(gateOutputRight, 1); // ENABLE RIGHT GATE
+                digitalWriteFast(gateOutputRight, 1); // ENABLE RIGHT GATE
                 gateOutputRightActive = 1;
               }
 
               gateTimerAll = gateLength + readTime;
               if (gateOutputAllActive == 1)
               {
-                digitalWrite(gateOutputAll, 0);
-                delay(1);
+                digitalWriteFast(gateOutputAll, 0);
+                delay(1);stepClock
               }
-              digitalWrite(gateOutputAll, 1); // ENABLE ALL GATE
+              digitalWriteFast(gateOutputAll, 1); // ENABLE ALL GATE
               gateOutputAllActive = 1;
             }
           }
@@ -1538,17 +1535,17 @@ void stepClock()
               activeChannelLeft = sequenceNotesLeft[activeSequenceStepLeft]; // SET ACTIVE LEFT CHANNEL
               activeChannelAll = activeChannelLeft;
 
-              digitalWrite (channelOutput[0], 0); // TURN OFF LED 0
-              digitalWrite (channelOutput[1], 0); // TURN OFF LED 1
-              digitalWrite (channelOutput[2], 0); // TURN OFF LED 2
-              digitalWrite (channelOutput[3], 0); // TURN OFF LED 3
-              digitalWrite (channelOutput[4], 0); // TURN OFF LED 4
+              digitalWriteFast(channelOutput[0], 0); // TURN OFF LED 0
+              digitalWriteFast(channelOutput[1], 0); // TURN OFF LED 1
+              digitalWriteFast(channelOutput[2], 0); // TURN OFF LED 2
+              digitalWriteFast(channelOutput[3], 0); // TURN OFF LED 3
+              digitalWriteFast(channelOutput[4], 0); // TURN OFF LED 4
 
-              if (sequenceNotesLeft[activeSequenceStepLeft] == 0) digitalWrite (channelOutput[0], 1); // TURN ON LED 0
-              else if (sequenceNotesLeft[activeSequenceStepLeft] == 1) digitalWrite (channelOutput[1], 1); // TURN ON LED 1
-              else if (sequenceNotesLeft[activeSequenceStepLeft] == 2) digitalWrite (channelOutput[2], 1); // TURN ON LED 2
-              else if (sequenceNotesLeft[activeSequenceStepLeft] == 3) digitalWrite (channelOutput[3], 1); // TURN ON LED 3
-              else if (sequenceNotesLeft[activeSequenceStepLeft] == 4) digitalWrite (channelOutput[4], 1); // TURN ON LED 4
+              if (sequenceNotesLeft[activeSequenceStepLeft] == 0) digitalWriteFast(channelOutput[0], 1); // TURN ON LED 0
+              else if (sequenceNotesLeft[activeSequenceStepLeft] == 1) digitalWriteFast(channelOutput[1], 1); // TURN ON LED 1
+              else if (sequenceNotesLeft[activeSequenceStepLeft] == 2) digitalWriteFast(channelOutput[2], 1); // TURN ON LED 2
+              else if (sequenceNotesLeft[activeSequenceStepLeft] == 3) digitalWriteFast(channelOutput[3], 1); // TURN ON LED 3
+              else if (sequenceNotesLeft[activeSequenceStepLeft] == 4) digitalWriteFast(channelOutput[4], 1); // TURN ON LED 4
 
               if (activeTouchChannelLeft != 99) sequenceYAxisLeft[activeSequenceStepLeft] = lastActiveSliderValueLeft;
 
@@ -1558,10 +1555,10 @@ void stepClock()
               gateTimerLeft = gateLength + readTime;
               if (gateOutputLeftActive == 1)
               {
-                digitalWrite(gateOutputLeft, 0);
+                digitalWriteFast(gateOutputLeft, 0);
                 delay(1);
               }
-              digitalWrite(gateOutputLeft, 1);
+              digitalWriteFast(gateOutputLeft, 1);
               gateOutputLeftActive = 1;
 
               leftUsed = 1;
@@ -1595,17 +1592,17 @@ void stepClock()
 
               //channelOutput 2,14,15,16,17
 
-              digitalWrite (channelOutput[5], 0); // TURN OFF LED 5
-              digitalWrite (channelOutput[6], 0); // TURN OFF LED 6
-              digitalWrite (channelOutput[7], 0); // TURN OFF LED 7
-              digitalWrite (channelOutput[8], 0); // TURN OFF LED 8
-              digitalWrite (channelOutput[9], 0); // TURN OFF LED 9
+              digitalWriteFast(channelOutput[5], 0); // TURN OFF LED 5
+              digitalWriteFast(channelOutput[6], 0); // TURN OFF LED 6
+              digitalWriteFast(channelOutput[7], 0); // TURN OFF LED 7
+              digitalWriteFast(channelOutput[8], 0); // TURN OFF LED 8
+              digitalWriteFast(channelOutput[9], 0); // TURN OFF LED 9
 
-              if (sequenceNotesRight[activeSequenceStepRight] == 5) digitalWrite (channelOutput[5], 1); // TURN ON LED 5
-              else if (sequenceNotesRight[activeSequenceStepRight] == 6) digitalWrite (channelOutput[6], 1); // TURN ON LED 6
-              else if (sequenceNotesRight[activeSequenceStepRight] == 7) digitalWrite (channelOutput[7], 1); // TURN ON LED 7
-              else if (sequenceNotesRight[activeSequenceStepRight] == 8) digitalWrite (channelOutput[8], 1); // TURN ON LED 8
-              else if (sequenceNotesRight[activeSequenceStepRight] == 9) digitalWrite (channelOutput[9], 1); // TURN ON LED 9
+              if (sequenceNotesRight[activeSequenceStepRight] == 5) digitalWriteFast(channelOutput[5], 1); // TURN ON LED 5
+              else if (sequenceNotesRight[activeSequenceStepRight] == 6) digitalWriteFast(channelOutput[6], 1); // TURN ON LED 6
+              else if (sequenceNotesRight[activeSequenceStepRight] == 7) digitalWriteFast(channelOutput[7], 1); // TURN ON LED 7
+              else if (sequenceNotesRight[activeSequenceStepRight] == 8) digitalWriteFast(channelOutput[8], 1); // TURN ON LED 8
+              else if (sequenceNotesRight[activeSequenceStepRight] == 9) digitalWriteFast(channelOutput[9], 1); // TURN ON LED 9
 
               if (activeTouchChannelRight != 99) sequenceYAxisRight[activeSequenceStepRight] = lastActiveSliderValueRight;
 
@@ -1614,10 +1611,10 @@ void stepClock()
               gateTimerRight = gateLength + readTime;
               if (gateOutputRightActive == 1)
               {
-                digitalWrite(gateOutputRight, 0);
+                digitalWriteFast(gateOutputRight, 0);
                 delay(1);
               }
-              digitalWrite(gateOutputRight, 1);
+              digitalWriteFast(gateOutputRight, 1);
               gateOutputRightActive = 1;
 
               rightUsed = 1;
@@ -1644,10 +1641,10 @@ void stepClock()
           gateTimerAll = gateLength + readTime;
           if (gateOutputAllActive == 1)
           {
-            digitalWrite(gateOutputAll, 0);
+            digitalWriteFast(gateOutputAll, 0);
             delay(1);
           }
-          digitalWrite(gateOutputAll, 1);
+          digitalWriteFast(gateOutputAll, 1);
           gateOutputAllActive = 1;
         }
       }
@@ -1663,7 +1660,7 @@ void stepClock()
     }
     else if (clockInputUsedCheckTimer < millis())
     {
-      clockInputUsed = digitalRead(clockInput);
+      clockInputUsed = digitalReadFast(clockInput);
       clockInputUsedCheckFlag = 0;
     }
   }
@@ -1772,51 +1769,51 @@ void checkScan()
     {
       lastScannedChannel = scannedChannel;
 
-      digitalWrite (channelOutput[0], 0); // TURN OFF LED 0
-      digitalWrite (channelOutput[1], 0); // TURN OFF LED 1
-      digitalWrite (channelOutput[2], 0); // TURN OFF LED 2
-      digitalWrite (channelOutput[3], 0); // TURN OFF LED 3
-      digitalWrite (channelOutput[4], 0); // TURN OFF LED 4
-      digitalWrite (channelOutput[5], 0); // TURN OFF LED 5
-      digitalWrite (channelOutput[6], 0); // TURN OFF LED 6
-      digitalWrite (channelOutput[7], 0); // TURN OFF LED 7
-      digitalWrite (channelOutput[8], 0); // TURN OFF LED 8
-      digitalWrite (channelOutput[9], 0); // TURN OFF LED 9
+      digitalWriteFast(channelOutput[0], 0); // TURN OFF LED 0
+      digitalWriteFast(channelOutput[1], 0); // TURN OFF LED 1
+      digitalWriteFast(channelOutput[2], 0); // TURN OFF LED 2
+      digitalWriteFast(channelOutput[3], 0); // TURN OFF LED 3
+      digitalWriteFast(channelOutput[4], 0); // TURN OFF LED 4
+      digitalWriteFast(channelOutput[5], 0); // TURN OFF LED 5
+      digitalWriteFast(channelOutput[6], 0); // TURN OFF LED 6
+      digitalWriteFast(channelOutput[7], 0); // TURN OFF LED 7
+      digitalWriteFast(channelOutput[8], 0); // TURN OFF LED 8
+      digitalWriteFast(channelOutput[9], 0); // TURN OFF LED 9
     
       if (scannedChannel < 5)
       {
-        digitalWrite(allSelectorA, 0);
-        digitalWrite(allSelectorB, 1);
-        digitalWrite(allSelectorC, 0);
-        digitalWrite(allSelectorD, 1);
+        digitalWriteFast(allSelectorA, 0);
+        digitalWriteFast(allSelectorB, 1);
+        digitalWriteFast(allSelectorC, 0);
+        digitalWriteFast(allSelectorD, 1);
       }
 
       else
       {
-        digitalWrite(allSelectorA, 1);
-        digitalWrite(allSelectorB, 0);
-        digitalWrite(allSelectorC, 1);
-        digitalWrite(allSelectorD, 0);
+        digitalWriteFast(allSelectorA, 1);
+        digitalWriteFast(allSelectorB, 0);
+        digitalWriteFast(allSelectorC, 1);
+        digitalWriteFast(allSelectorD, 0);
       }
       
 
-      if (scannedChannel == 0) digitalWrite (channelOutput[0], 1); // TURN ON LED 0
-      else if (scannedChannel == 1) digitalWrite (channelOutput[1], 1); // TURN ON LED 1
-      else if (scannedChannel == 2) digitalWrite (channelOutput[2], 1); // TURN ON LED 2
-      else if (scannedChannel == 3) digitalWrite (channelOutput[3], 1); // TURN ON LED 3
-      else if (scannedChannel == 4) digitalWrite (channelOutput[4], 1); // TURN ON LED 4
-      else if (scannedChannel == 5) digitalWrite (channelOutput[5], 1); // TURN ON LED 5
-      else if (scannedChannel == 6) digitalWrite (channelOutput[6], 1); // TURN ON LED 6
-      else if (scannedChannel == 7) digitalWrite (channelOutput[7], 1); // TURN ON LED 7
-      else if (scannedChannel == 8) digitalWrite (channelOutput[8], 1); // TURN ON LED 8
-      else if (scannedChannel == 9) digitalWrite (channelOutput[9], 1); // TURN ON LED 9
+      if (scannedChannel == 0) digitalWriteFast(channelOutput[0], 1); // TURN ON LED 0
+      else if (scannedChannel == 1) digitalWriteFast(channelOutput[1], 1); // TURN ON LED 1
+      else if (scannedChannel == 2) digitalWriteFast(channelOutput[2], 1); // TURN ON LED 2
+      else if (scannedChannel == 3) digitalWriteFast(channelOutput[3], 1); // TURN ON LED 3
+      else if (scannedChannel == 4) digitalWriteFast(channelOutput[4], 1); // TURN ON LED 4
+      else if (scannedChannel == 5) digitalWriteFast(channelOutput[5], 1); // TURN ON LED 5
+      else if (scannedChannel == 6) digitalWriteFast(channelOutput[6], 1); // TURN ON LED 6
+      else if (scannedChannel == 7) digitalWriteFast(channelOutput[7], 1); // TURN ON LED 7
+      else if (scannedChannel == 8) digitalWriteFast(channelOutput[8], 1); // TURN ON LED 8
+      else if (scannedChannel == 9) digitalWriteFast(channelOutput[9], 1); // TURN ON LED 9
 
       if (scannedChannel < 5)
       {
         if (gateTimerLeft != 0 || gateTimerAll != 0)
         {
-          digitalWrite(gateOutputLeft, 0);
-          digitalWrite(gateOutputAll, 0);
+          digitalWriteFast(gateOutputLeft, 0);
+          digitalWriteFast(gateOutputAll, 0);
           gateOutputAllActive = 0;
           gateOutputLeftActive = 0;
           delay(1);
@@ -1824,12 +1821,12 @@ void checkScan()
         gateTimerLeft = gateLength + readTime;
         gateTimerAll = gateLength + readTime;
 
-        if (gateOutputAllActive == 1) digitalWrite(gateOutputAll, 0);
-        if (gateOutputLeftActive == 1)digitalWrite(gateOutputLeft, 0);
+        if (gateOutputAllActive == 1) digitalWriteFast(gateOutputAll, 0);
+        if (gateOutputLeftActive == 1)digitalWriteFast(gateOutputLeft, 0);
         if (gateOutputAllActive == 1 || gateOutputLeftActive == 1) delay(1);
 
-        digitalWrite(gateOutputLeft, 1); // ENABLE LEFT GATE
-        digitalWrite(gateOutputAll, 1); // ENABLE ALL GATE
+        digitalWriteFast(gateOutputLeft, 1); // ENABLE LEFT GATE
+        digitalWriteFast(gateOutputAll, 1); // ENABLE ALL GATE
         gateOutputAllActive = 1;
         gateOutputLeftActive = 1;
       }
@@ -1838,8 +1835,8 @@ void checkScan()
       {
         if (gateTimerRight != 0 || gateTimerAll != 0)
         {
-          digitalWrite(gateOutputRight, 0);
-          digitalWrite(gateOutputAll, 0);
+          digitalWriteFast(gateOutputRight, 0);
+          digitalWriteFast(gateOutputAll, 0);
           gateOutputAllActive = 0;
           gateOutputRightActive = 0;
           delay(1);
@@ -1847,11 +1844,11 @@ void checkScan()
         gateTimerRight = gateLength + readTime;
         gateTimerAll = gateLength + readTime;
         
-        if (gateOutputAllActive == 1) digitalWrite(gateOutputAll, 0);
-        if (gateOutputRightActive == 1) digitalWrite(gateOutputRight, 0);
+        if (gateOutputAllActive == 1) digitalWriteFast(gateOutputAll, 0);
+        if (gateOutputRightActive == 1) digitalWriteFast(gateOutputRight, 0);
         if (gateOutputAllActive == 1 || gateOutputRightActive == 1) delay(1);
-        digitalWrite(gateOutputRight, 1); // ENABLE RIGHT GATE
-        digitalWrite(gateOutputAll, 1); // ENABLE ALL GATE
+        digitalWriteFast(gateOutputRight, 1); // ENABLE RIGHT GATE
+        digitalWriteFast(gateOutputAll, 1); // ENABLE ALL GATE
         gateOutputAllActive = 1;
         gateOutputRightActive = 1;
       }
@@ -1870,23 +1867,23 @@ void checkScan()
     {
       lastScannedChannel = scannedChannel;
 
-      digitalWrite (channelOutput[0], 0); // TURN OFF LED 0
-      digitalWrite (channelOutput[1], 0); // TURN OFF LED 1
-      digitalWrite (channelOutput[2], 0); // TURN OFF LED 2
-      digitalWrite (channelOutput[3], 0); // TURN OFF LED 3
-      digitalWrite (channelOutput[4], 0); // TURN OFF LED 4
-      digitalWrite (channelOutput[5], 0); // TURN OFF LED 5
-      digitalWrite (channelOutput[6], 0); // TURN OFF LED 6
-      digitalWrite (channelOutput[7], 0); // TURN OFF LED 7
-      digitalWrite (channelOutput[8], 0); // TURN OFF LED 8
-      digitalWrite (channelOutput[9], 0); // TURN OFF LED 9
+      digitalWriteFast(channelOutput[0], 0); // TURN OFF LED 0
+      digitalWriteFast(channelOutput[1], 0); // TURN OFF LED 1
+      digitalWriteFast(channelOutput[2], 0); // TURN OFF LED 2
+      digitalWriteFast(channelOutput[3], 0); // TURN OFF LED 3
+      digitalWriteFast(channelOutput[4], 0); // TURN OFF LED 4
+      digitalWriteFast(channelOutput[5], 0); // TURN OFF LED 5
+      digitalWriteFast(channelOutput[6], 0); // TURN OFF LED 6
+      digitalWriteFast(channelOutput[7], 0); // TURN OFF LED 7
+      digitalWriteFast(channelOutput[8], 0); // TURN OFF LED 8
+      digitalWriteFast(channelOutput[9], 0); // TURN OFF LED 9
       
 
       if (gateTimerLeft != 0 || gateTimerRight != 0 || gateTimerAll != 0)
       {
-        digitalWrite(gateOutputLeft, 0);
-        digitalWrite(gateOutputRight, 0);
-        digitalWrite(gateOutputAll, 0);
+        digitalWriteFast(gateOutputLeft, 0);
+        digitalWriteFast(gateOutputRight, 0);
+        digitalWriteFast(gateOutputAll, 0);
 
         gateOutputAllActive = 0;
         gateOutputLeftActive = 0;
@@ -1897,21 +1894,21 @@ void checkScan()
 
       if (scannedChannel == 0)
       {
-        digitalWrite (channelOutput[0], 1); // TURN ON LED 0
-        digitalWrite (channelOutput[5], 1); // TURN ON LED 5
+        digitalWriteFast(channelOutput[0], 1); // TURN ON LED 0
+        digitalWriteFast(channelOutput[5], 1); // TURN ON LED 5
 
         gateTimerLeft = gateLength + readTime;
         gateTimerRight = gateLength + readTime;
         gateTimerAll = gateLength + readTime;
 
-        if (gateOutputAllActive == 1) digitalWrite(gateOutputAll, 0);
-        if (gateOutputLeftActive == 1) digitalWrite(gateOutputLeft, 0);
-        if (gateOutputRightActive == 1) digitalWrite(gateOutputRight, 0);
+        if (gateOutputAllActive == 1) digitalWriteFast(gateOutputAll, 0);
+        if (gateOutputLeftActive == 1) digitalWriteFast(gateOutputLeft, 0);
+        if (gateOutputRightActive == 1) digitalWriteFast(gateOutputRight, 0);
         if (gateOutputAllActive == 1 || gateOutputLeftActive == 1 || gateOutputRightActive == 1) delay(1);
 
-        digitalWrite(gateOutputLeft, 1); // ENABLE LEFT GATE
-        digitalWrite(gateOutputRight, 1); // ENABLE RIGHT GATE
-        digitalWrite(gateOutputAll, 1); // ENABLE ALL GATE
+        digitalWriteFast(gateOutputLeft, 1); // ENABLE LEFT GATE
+        digitalWriteFast(gateOutputRight, 1); // ENABLE RIGHT GATE
+        digitalWriteFast(gateOutputAll, 1); // ENABLE ALL GATE
 
         gateOutputAllActive = 1;
         gateOutputLeftActive = 1;
@@ -1919,21 +1916,21 @@ void checkScan()
       }
       else if (scannedChannel == 1)
       {
-        digitalWrite (channelOutput[1], 1); // TURN ON LED 1
-        digitalWrite (channelOutput[6], 1); // TURN ON LED 6
+        digitalWriteFast(channelOutput[1], 1); // TURN ON LED 1
+        digitalWriteFast(channelOutput[6], 1); // TURN ON LED 6
 
         gateTimerLeft = gateLength + readTime;
         gateTimerRight = gateLength + readTime;
         gateTimerAll = gateLength + readTime;
 
-        if (gateOutputAllActive == 1) digitalWrite(gateOutputAll, 0);
-        if (gateOutputLeftActive == 1) digitalWrite(gateOutputLeft, 0);
-        if (gateOutputRightActive == 1) digitalWrite(gateOutputRight, 0);
+        if (gateOutputAllActive == 1) digitalWriteFast(gateOutputAll, 0);
+        if (gateOutputLeftActive == 1) digitalWriteFast(gateOutputLeft, 0);
+        if (gateOutputRightActive == 1) digitalWriteFast(gateOutputRight, 0);
         if (gateOutputAllActive == 1 || gateOutputLeftActive == 1 || gateOutputRightActive == 1) delay(1);
 
-        digitalWrite(gateOutputLeft, 1); // ENABLE LEFT GATE
-        digitalWrite(gateOutputRight, 1); // ENABLE RIGHT GATE
-        digitalWrite(gateOutputAll, 1); // ENABLE ALL GATE
+        digitalWriteFast(gateOutputLeft, 1); // ENABLE LEFT GATE
+        digitalWriteFast(gateOutputRight, 1); // ENABLE RIGHT GATE
+        digitalWriteFast(gateOutputAll, 1); // ENABLE ALL GATE
 
         gateOutputAllActive = 1;
         gateOutputLeftActive = 1;
@@ -1941,21 +1938,21 @@ void checkScan()
       }
       else if (scannedChannel == 2)
       {
-        digitalWrite (channelOutput[2], 1); // TURN ON LED 2
-        digitalWrite (channelOutput[7], 1); // TURN ON LED 7
+        digitalWriteFast(channelOutput[2], 1); // TURN ON LED 2
+        digitalWriteFast(channelOutput[7], 1); // TURN ON LED 7
 
         gateTimerLeft = gateLength + readTime;
         gateTimerRight = gateLength + readTime;
         gateTimerAll = gateLength + readTime;
 
-        if (gateOutputAllActive == 1) digitalWrite(gateOutputAll, 0);
-        if (gateOutputLeftActive == 1) digitalWrite(gateOutputLeft, 0);
-        if (gateOutputRightActive == 1) digitalWrite(gateOutputRight, 0);
+        if (gateOutputAllActive == 1) digitalWriteFast(gateOutputAll, 0);
+        if (gateOutputLeftActive == 1) digitalWriteFast(gateOutputLeft, 0);
+        if (gateOutputRightActive == 1) digitalWriteFast(gateOutputRight, 0);
         if (gateOutputAllActive == 1 || gateOutputLeftActive == 1 || gateOutputRightActive == 1) delay(1);
 
-        digitalWrite(gateOutputLeft, 1); // ENABLE LEFT GATE
-        digitalWrite(gateOutputRight, 1); // ENABLE RIGHT GATE
-        digitalWrite(gateOutputAll, 1); // ENABLE ALL GATE
+        digitalWriteFast(gateOutputLeft, 1); // ENABLE LEFT GATE
+        digitalWriteFast(gateOutputRight, 1); // ENABLE RIGHT GATE
+        digitalWriteFast(gateOutputAll, 1); // ENABLE ALL GATE
 
         gateOutputAllActive = 1;
         gateOutputLeftActive = 1;
@@ -1963,21 +1960,21 @@ void checkScan()
       }
       else if (scannedChannel == 3)
       {
-        digitalWrite (channelOutput[3], 1); // TURN ON LED 3
-        digitalWrite (channelOutput[8], 1); // TURN ON LED 8
+        digitalWriteFast(channelOutput[3], 1); // TURN ON LED 3
+        digitalWriteFast(channelOutput[8], 1); // TURN ON LED 8
 
         gateTimerLeft = gateLength + readTime;
         gateTimerRight = gateLength + readTime;
         gateTimerAll = gateLength + readTime;
 
-        if (gateOutputAllActive == 1) digitalWrite(gateOutputAll, 0);
-        if (gateOutputLeftActive == 1) digitalWrite(gateOutputLeft, 0);
-        if (gateOutputRightActive == 1) digitalWrite(gateOutputRight, 0);
+        if (gateOutputAllActive == 1) digitalWriteFast(gateOutputAll, 0);
+        if (gateOutputLeftActive == 1) digitalWriteFast(gateOutputLeft, 0);
+        if (gateOutputRightActive == 1) digitalWriteFast(gateOutputRight, 0);
         if (gateOutputAllActive == 1 || gateOutputLeftActive == 1 || gateOutputRightActive == 1) delay(1);
 
-        digitalWrite(gateOutputLeft, 1); // ENABLE LEFT GATE
-        digitalWrite(gateOutputRight, 1); // ENABLE RIGHT GATE
-        digitalWrite(gateOutputAll, 1); // ENABLE ALL GATE
+        digitalWriteFast(gateOutputLeft, 1); // ENABLE LEFT GATE
+        digitalWriteFast(gateOutputRight, 1); // ENABLE RIGHT GATE
+        digitalWriteFast(gateOutputAll, 1); // ENABLE ALL GATE
 
         gateOutputAllActive = 1;
         gateOutputLeftActive = 1;
@@ -1985,21 +1982,21 @@ void checkScan()
       }
       else if (scannedChannel == 4)
       {
-        digitalWrite (channelOutput[4], 1); // TURN ON LED 4
-        digitalWrite (channelOutput[9], 1); // TURN ON LED 9
+        digitalWriteFast(channelOutput[4], 1); // TURN ON LED 4
+        digitalWriteFast(channelOutput[9], 1); // TURN ON LED 9
 
         gateTimerLeft = gateLength + readTime;
         gateTimerRight = gateLength + readTime;
         gateTimerAll = gateLength + readTime;
 
-        if (gateOutputAllActive == 1) digitalWrite(gateOutputAll, 0);
-        if (gateOutputLeftActive == 1) digitalWrite(gateOutputLeft, 0);
-        if (gateOutputRightActive == 1) digitalWrite(gateOutputRight, 0);
+        if (gateOutputAllActive == 1) digitalWriteFast(gateOutputAll, 0);
+        if (gateOutputLeftActive == 1) digitalWriteFast(gateOutputLeft, 0);
+        if (gateOutputRightActive == 1) digitalWriteFast(gateOutputRight, 0);
         if (gateOutputAllActive == 1 || gateOutputLeftActive == 1 || gateOutputRightActive == 1) delay(1);
 
-        digitalWrite(gateOutputLeft, 1); // ENABLE LEFT GATE
-        digitalWrite(gateOutputRight, 1); // ENABLE RIGHT GATE
-        digitalWrite(gateOutputAll, 1); // ENABLE ALL GATE
+        digitalWriteFast(gateOutputLeft, 1); // ENABLE LEFT GATE
+        digitalWriteFast(gateOutputRight, 1); // ENABLE RIGHT GATE
+        digitalWriteFast(gateOutputAll, 1); // ENABLE ALL GATE
 
         gateOutputAllActive = 1;
         gateOutputLeftActive = 1;
@@ -2045,7 +2042,7 @@ void pressMonoButton()
 {	
   if (duoButtonState == 0)
   {
-    monoButtonState = digitalRead(monoButton);
+    monoButtonState = digitalReadFast(monoButton);
 
     if (monoButtonState == 1) 
     {
@@ -2065,25 +2062,25 @@ void pressMonoButton()
             autoCalibrateSwitch(x,1);
             capAxis[x].reset_CS_AutoCal();
 
-            digitalWrite (channelOutput[0], 0); // TURN OFF LED 5
-            digitalWrite (channelOutput[1], 0); // TURN OFF LED 6
-            digitalWrite (channelOutput[2], 0); // TURN OFF LED 7
-            digitalWrite (channelOutput[3], 0); // TURN OFF LED 8
-            digitalWrite (channelOutput[4], 0); // TURN OFF LED 9
-            digitalWrite (channelOutput[5], 0); // TURN OFF LED 5
-            digitalWrite (channelOutput[6], 0); // TURN OFF LED 6
-            digitalWrite (channelOutput[7], 0); // TURN OFF LED 7
-            digitalWrite (channelOutput[8], 0); // TURN OFF LED 8
-            digitalWrite (channelOutput[9], 0); // TURN OFF LED 9
+            digitalWriteFast(channelOutput[0], 0); // TURN OFF LED 5
+            digitalWriteFast(channelOutput[1], 0); // TURN OFF LED 6
+            digitalWriteFast(channelOutput[2], 0); // TURN OFF LED 7
+            digitalWriteFast(channelOutput[3], 0); // TURN OFF LED 8
+            digitalWriteFast(channelOutput[4], 0); // TURN OFF LED 9
+            digitalWriteFast(channelOutput[5], 0); // TURN OFF LED 5
+            digitalWriteFast(channelOutput[6], 0); // TURN OFF LED 6
+            digitalWriteFast(channelOutput[7], 0); // TURN OFF LED 7
+            digitalWriteFast(channelOutput[8], 0); // TURN OFF LED 8
+            digitalWriteFast(channelOutput[9], 0); // TURN OFF LED 9
 
             if (noteMode == 0)
             {
-              digitalWrite (channelOutput[activeChannelAll], 1); // TURN ON ACTIVE CHANNEL
+              digitalWriteFast(channelOutput[activeChannelAll], 1); // TURN ON ACTIVE CHANNEL
             }
             else
             {
-              digitalWrite (channelOutput[activeChannelLeft], 1); // TURN ON ACTIVE CHANNEL
-              digitalWrite (channelOutput[activeChannelRight], 1); // TURN ON ACTIVE CHANNEL
+              digitalWriteFast(channelOutput[activeChannelLeft], 1); // TURN ON ACTIVE CHANNEL
+              digitalWriteFast(channelOutput[activeChannelRight], 1); // TURN ON ACTIVE CHANNEL
             }
           }
         }
@@ -2122,23 +2119,23 @@ void pressMonoButton()
             duoNotePressedRight = 1;
 
             noteMode = 0;
-            digitalWrite (channelOutput[0], 0); // TURN OFF LED 5
-            digitalWrite (channelOutput[1], 0); // TURN OFF LED 6
-            digitalWrite (channelOutput[2], 0); // TURN OFF LED 7
-            digitalWrite (channelOutput[3], 0); // TURN OFF LED 8
-            digitalWrite (channelOutput[4], 0); // TURN OFF LED 9
-            digitalWrite (channelOutput[5], 0); // TURN OFF LED 5
-            digitalWrite (channelOutput[6], 0); // TURN OFF LED 6
-            digitalWrite (channelOutput[7], 0); // TURN OFF LED 7
-            digitalWrite (channelOutput[8], 0); // TURN OFF LED 8
-            digitalWrite (channelOutput[9], 0); // TURN OFF LED 9
+            digitalWriteFast(channelOutput[0], 0); // TURN OFF LED 5
+            digitalWriteFast(channelOutput[1], 0); // TURN OFF LED 6
+            digitalWriteFast(channelOutput[2], 0); // TURN OFF LED 7
+            digitalWriteFast(channelOutput[3], 0); // TURN OFF LED 8
+            digitalWriteFast(channelOutput[4], 0); // TURN OFF LED 9
+            digitalWriteFast(channelOutput[5], 0); // TURN OFF LED 5
+            digitalWriteFast(channelOutput[6], 0); // TURN OFF LED 6
+            digitalWriteFast(channelOutput[7], 0); // TURN OFF LED 7
+            digitalWriteFast(channelOutput[8], 0); // TURN OFF LED 8
+            digitalWriteFast(channelOutput[9], 0); // TURN OFF LED 9
 
-            digitalWrite (channelOutput[activeChannelAll], 1); // TURN ON ACTIVE CHANNEL
+            digitalWriteFast(channelOutput[activeChannelAll], 1); // TURN ON ACTIVE CHANNEL
 
-            digitalWrite(allSelectorA, 1);
-            digitalWrite(allSelectorB, 1);
-            digitalWrite(allSelectorC, 1);
-            digitalWrite(allSelectorD, 1);
+            digitalWriteFast(allSelectorA, 1);
+            digitalWriteFast(allSelectorB, 1);
+            digitalWriteFast(allSelectorC, 1);
+            digitalWriteFast(allSelectorD, 1);
           }
         }
       }
@@ -2207,7 +2204,7 @@ bool restButtonChangeEnabled = 1;
 
 void pressRestButton()
 {	
-  restButtonState = digitalRead(restButton);
+  restButtonState = digitalReadFast(restButton);
 	if (restButtonState == 1) 
 	{
     if (restButtonChangeEnabled == 1)
@@ -2348,7 +2345,7 @@ void pressDuoButton()
 {	
   if (monoButtonState == 0)
   {
-    duoButtonState = digitalRead(duoButton);
+    duoButtonState = digitalReadFast(duoButton);
 
     // DUO BUTTON ON
     // ------------------------------------
@@ -2368,25 +2365,25 @@ void pressDuoButton()
             autoCalibrateSwitch(x,1);
             capAxis[x].reset_CS_AutoCal();
 
-            digitalWrite (channelOutput[0], 0); // TURN OFF LED 5
-            digitalWrite (channelOutput[1], 0); // TURN OFF LED 6
-            digitalWrite (channelOutput[2], 0); // TURN OFF LED 7
-            digitalWrite (channelOutput[3], 0); // TURN OFF LED 8
-            digitalWrite (channelOutput[4], 0); // TURN OFF LED 9
-            digitalWrite (channelOutput[5], 0); // TURN OFF LED 5
-            digitalWrite (channelOutput[6], 0); // TURN OFF LED 6
-            digitalWrite (channelOutput[7], 0); // TURN OFF LED 7
-            digitalWrite (channelOutput[8], 0); // TURN OFF LED 8
-            digitalWrite (channelOutput[9], 0); // TURN OFF LED 9
+            digitalWriteFast(channelOutput[0], 0); // TURN OFF LED 5
+            digitalWriteFast(channelOutput[1], 0); // TURN OFF LED 6
+            digitalWriteFast(channelOutput[2], 0); // TURN OFF LED 7
+            digitalWriteFast(channelOutput[3], 0); // TURN OFF LED 8
+            digitalWriteFast(channelOutput[4], 0); // TURN OFF LED 9
+            digitalWriteFast(channelOutput[5], 0); // TURN OFF LED 5
+            digitalWriteFast(channelOutput[6], 0); // TURN OFF LED 6
+            digitalWriteFast(channelOutput[7], 0); // TURN OFF LED 7
+            digitalWriteFast(channelOutput[8], 0); // TURN OFF LED 8
+            digitalWriteFast(channelOutput[9], 0); // TURN OFF LED 9
 
             if (noteMode == 0)
             {
-              digitalWrite (channelOutput[activeChannelAll], 1); // TURN ON ACTIVE CHANNEL
+              digitalWriteFast(channelOutput[activeChannelAll], 1); // TURN ON ACTIVE CHANNEL
             }
             else
             {
-              digitalWrite (channelOutput[activeChannelLeft], 1); // TURN ON ACTIVE CHANNEL
-              digitalWrite (channelOutput[activeChannelRight], 1); // TURN ON ACTIVE CHANNEL
+              digitalWriteFast(channelOutput[activeChannelLeft], 1); // TURN ON ACTIVE CHANNEL
+              digitalWriteFast(channelOutput[activeChannelRight], 1); // TURN ON ACTIVE CHANNEL
             }
           }
         }
@@ -2408,24 +2405,24 @@ void pressDuoButton()
             noteMode = 1;
             lastDuoNotePressed = 0;
 
-            digitalWrite (channelOutput[0], 0); // TURN OFF LED 5
-            digitalWrite (channelOutput[1], 0); // TURN OFF LED 6
-            digitalWrite (channelOutput[2], 0); // TURN OFF LED 7
-            digitalWrite (channelOutput[3], 0); // TURN OFF LED 8
-            digitalWrite (channelOutput[4], 0); // TURN OFF LED 9
-            digitalWrite (channelOutput[5], 0); // TURN OFF LED 5
-            digitalWrite (channelOutput[6], 0); // TURN OFF LED 6
-            digitalWrite (channelOutput[7], 0); // TURN OFF LED 7
-            digitalWrite (channelOutput[8], 0); // TURN OFF LED 8
-            digitalWrite (channelOutput[9], 0); // TURN OFF LED 9
+            digitalWriteFast(channelOutput[0], 0); // TURN OFF LED 5
+            digitalWriteFast(channelOutput[1], 0); // TURN OFF LED 6
+            digitalWriteFast(channelOutput[2], 0); // TURN OFF LED 7
+            digitalWriteFast(channelOutput[3], 0); // TURN OFF LED 8
+            digitalWriteFast(channelOutput[4], 0); // TURN OFF LED 9
+            digitalWriteFast(channelOutput[5], 0); // TURN OFF LED 5
+            digitalWriteFast(channelOutput[6], 0); // TURN OFF LED 6
+            digitalWriteFast(channelOutput[7], 0); // TURN OFF LED 7
+            digitalWriteFast(channelOutput[8], 0); // TURN OFF LED 8
+            digitalWriteFast(channelOutput[9], 0); // TURN OFF LED 9
 
-            digitalWrite (channelOutput[activeChannelLeft], 1); // TURN ON ACTIVE CHANNEL LEFT
-            digitalWrite (channelOutput[activeChannelRight], 1); // TURN ON ACTIVE CHANNEL RIGHT
+            digitalWriteFast(channelOutput[activeChannelLeft], 1); // TURN ON ACTIVE CHANNEL LEFT
+            digitalWriteFast(channelOutput[activeChannelRight], 1); // TURN ON ACTIVE CHANNEL RIGHT
 
-            digitalWrite(allSelectorA, 0);
-            digitalWrite(allSelectorB, 0);
-            digitalWrite(allSelectorC, 0);
-            digitalWrite(allSelectorD, 0);
+            digitalWriteFast(allSelectorA, 0);
+            digitalWriteFast(allSelectorB, 0);
+            digitalWriteFast(allSelectorC, 0);
+            digitalWriteFast(allSelectorD, 0);
           }
 
           // DUO SEQUENCE PROGRAMMING
@@ -2532,130 +2529,130 @@ void setup()
 
   // PIN CONFIGURATION
 	// -----------------
-	pinMode(switchInput[0], INPUT);
-  pinMode(switchInput[1], INPUT);
-  pinMode(switchInput[2], INPUT);
-  pinMode(switchInput[3], INPUT);
-  pinMode(switchInput[4], INPUT);
-  pinMode(switchInput[5], INPUT);
-  pinMode(switchInput[6], INPUT);
-  pinMode(switchInput[7], INPUT);
-  pinMode(switchInput[8], INPUT);
-  pinMode(switchInput[9], INPUT);
+	pinModeFast(switchInput[0], INPUT);
+  pinModeFast(switchInput[1], INPUT);
+  pinModeFast(switchInput[2], INPUT);
+  pinModeFast(switchInput[3], INPUT);
+  pinModeFast(switchInput[4], INPUT);
+  pinModeFast(switchInput[5], INPUT);
+  pinModeFast(switchInput[6], INPUT);
+  pinModeFast(switchInput[7], INPUT);
+  pinModeFast(switchInput[8], INPUT);
+  pinModeFast(switchInput[9], INPUT);
 
-  pinMode(switchResistor[0], OUTPUT);
-  pinMode(switchResistor[1], OUTPUT);
-  pinMode(switchResistor[2], OUTPUT);
-  pinMode(switchResistor[3], OUTPUT);
-  pinMode(switchResistor[4], OUTPUT);
-  pinMode(switchResistor[5], OUTPUT);
-  pinMode(switchResistor[6], OUTPUT);
-  pinMode(switchResistor[7], OUTPUT);
-  pinMode(switchResistor[8], OUTPUT);
-  pinMode(switchResistor[9], OUTPUT);
+  pinModeFast(switchResistor[0], OUTPUT);
+  pinModeFast(switchResistor[1], OUTPUT);
+  pinModeFast(switchResistor[2], OUTPUT);
+  pinModeFast(switchResistor[3], OUTPUT);
+  pinModeFast(switchResistor[4], OUTPUT);
+  pinModeFast(switchResistor[5], OUTPUT);
+  pinModeFast(switchResistor[6], OUTPUT);
+  pinModeFast(switchResistor[7], OUTPUT);
+  pinModeFast(switchResistor[8], OUTPUT);
+  pinModeFast(switchResistor[9], OUTPUT);
 
-  digitalWrite(switchResistor[0], 0);
-  digitalWrite(switchResistor[1], 0);
-  digitalWrite(switchResistor[2], 0);
-  digitalWrite(switchResistor[3], 0);
-  digitalWrite(switchResistor[4], 0);
-  digitalWrite(switchResistor[5], 0);
-  digitalWrite(switchResistor[6], 0);
-  digitalWrite(switchResistor[7], 0);
-  digitalWrite(switchResistor[8], 0);
-  digitalWrite(switchResistor[9], 0);
-
-
-  pinMode(axisInput[0], INPUT);
-  pinMode(axisInput[1], INPUT);
-  pinMode(axisInput[2], INPUT);
-  pinMode(axisInput[3], INPUT);
-  pinMode(axisInput[4], INPUT);
-  pinMode(axisInput[5], INPUT);
-  pinMode(axisInput[6], INPUT);
-  pinMode(axisInput[7], INPUT);
-  pinMode(axisInput[8], INPUT);
-  pinMode(axisInput[9], INPUT);
-
-  pinMode(axisResistor[0], OUTPUT);
-  pinMode(axisResistor[1], OUTPUT);
-  pinMode(axisResistor[2], OUTPUT);
-  pinMode(axisResistor[3], OUTPUT);
-  pinMode(axisResistor[4], OUTPUT);
-  pinMode(axisResistor[5], OUTPUT);
-  pinMode(axisResistor[6], OUTPUT);
-  pinMode(axisResistor[7], OUTPUT);
-  pinMode(axisResistor[8], OUTPUT);
-  pinMode(axisResistor[9], OUTPUT);
-
-  digitalWrite(axisResistor[0], 0);
-  digitalWrite(axisResistor[1], 0);
-  digitalWrite(axisResistor[2], 0);
-  digitalWrite(axisResistor[3], 0);
-  digitalWrite(axisResistor[4], 0);
-  digitalWrite(axisResistor[5], 0);
-  digitalWrite(axisResistor[6], 0);
-  digitalWrite(axisResistor[7], 0);
-  digitalWrite(axisResistor[8], 0);
-  digitalWrite(axisResistor[9], 0);
+  digitalWriteFast(switchResistor[0], 0);
+  digitalWriteFast(switchResistor[1], 0);
+  digitalWriteFast(switchResistor[2], 0);
+  digitalWriteFast(switchResistor[3], 0);
+  digitalWriteFast(switchResistor[4], 0);
+  digitalWriteFast(switchResistor[5], 0);
+  digitalWriteFast(switchResistor[6], 0);
+  digitalWriteFast(switchResistor[7], 0);
+  digitalWriteFast(switchResistor[8], 0);
+  digitalWriteFast(switchResistor[9], 0);
 
 
-  pinMode(channelOutput[0], OUTPUT);
-  pinMode(channelOutput[1], OUTPUT);
-  pinMode(channelOutput[2], OUTPUT);
-  pinMode(channelOutput[3], OUTPUT);
-  pinMode(channelOutput[4], OUTPUT);
-  pinMode(channelOutput[5], OUTPUT);
-  pinMode(channelOutput[6], OUTPUT);
-  pinMode(channelOutput[7], OUTPUT);
-  pinMode(channelOutput[8], OUTPUT);
-  pinMode(channelOutput[9], OUTPUT);
+  pinModeFast(axisInput[0], INPUT);
+  pinModeFast(axisInput[1], INPUT);
+  pinModeFast(axisInput[2], INPUT);
+  pinModeFast(axisInput[3], INPUT);
+  pinModeFast(axisInput[4], INPUT);
+  pinModeFast(axisInput[5], INPUT);
+  pinModeFast(axisInput[6], INPUT);
+  pinModeFast(axisInput[7], INPUT);
+  pinModeFast(axisInput[8], INPUT);
+  pinModeFast(axisInput[9], INPUT);
 
-	digitalWrite(channelOutput[0], 0);
-  digitalWrite(channelOutput[1], 0);
-  digitalWrite(channelOutput[2], 0);
-  digitalWrite(channelOutput[3], 0);
-  digitalWrite(channelOutput[4], 0);
-  digitalWrite(channelOutput[5], 0);
-  digitalWrite(channelOutput[6], 0);
-  digitalWrite(channelOutput[7], 0);
-  digitalWrite(channelOutput[8], 0);
-  digitalWrite(channelOutput[9], 0);
+  pinModeFast(axisResistor[0], OUTPUT);
+  pinModeFast(axisResistor[1], OUTPUT);
+  pinModeFast(axisResistor[2], OUTPUT);
+  pinModeFast(axisResistor[3], OUTPUT);
+  pinModeFast(axisResistor[4], OUTPUT);
+  pinModeFast(axisResistor[5], OUTPUT);
+  pinModeFast(axisResistor[6], OUTPUT);
+  pinModeFast(axisResistor[7], OUTPUT);
+  pinModeFast(axisResistor[8], OUTPUT);
+  pinModeFast(axisResistor[9], OUTPUT);
 
-  pinMode(axisOutput[0], OUTPUT);
-  pinMode(axisOutput[1], OUTPUT);
-  pinMode(axisOutput[2], OUTPUT);
+  digitalWriteFast(axisResistor[0], 0);
+  digitalWriteFast(axisResistor[1], 0);
+  digitalWriteFast(axisResistor[2], 0);
+  digitalWriteFast(axisResistor[3], 0);
+  digitalWriteFast(axisResistor[4], 0);
+  digitalWriteFast(axisResistor[5], 0);
+  digitalWriteFast(axisResistor[6], 0);
+  digitalWriteFast(axisResistor[7], 0);
+  digitalWriteFast(axisResistor[8], 0);
+  digitalWriteFast(axisResistor[9], 0);
+
+
+  pinModeFast(channelOutput[0], OUTPUT);
+  pinModeFast(channelOutput[1], OUTPUT);
+  pinModeFast(channelOutput[2], OUTPUT);
+  pinModeFast(channelOutput[3], OUTPUT);
+  pinModeFast(channelOutput[4], OUTPUT);
+  pinModeFast(channelOutput[5], OUTPUT);
+  pinModeFast(channelOutput[6], OUTPUT);
+  pinModeFast(channelOutput[7], OUTPUT);
+  pinModeFast(channelOutput[8], OUTPUT);
+  pinModeFast(channelOutput[9], OUTPUT);
+
+	digitalWriteFast(channelOutput[0], 0);
+  digitalWriteFast(channelOutput[1], 0);
+  digitalWriteFast(channelOutput[2], 0);
+  digitalWriteFast(channelOutput[3], 0);
+  digitalWriteFast(channelOutput[4], 0);
+  digitalWriteFast(channelOutput[5], 0);
+  digitalWriteFast(channelOutput[6], 0);
+  digitalWriteFast(channelOutput[7], 0);
+  digitalWriteFast(channelOutput[8], 0);
+  digitalWriteFast(channelOutput[9], 0);
+
+  pinModeFast(axisOutput[0], OUTPUT);
+  pinModeFast(axisOutput[1], OUTPUT);
+  pinModeFast(axisOutput[2], OUTPUT);
 
   analogWrite(axisOutput[0], 0);
   analogWrite(axisOutput[1], 0);
   analogWrite(axisOutput[2], 0);
 
-  pinMode(clockInput, INPUT);
+  pinModeFast(clockInput, INPUT);
 
-  pinMode(resetInput, INPUT);
-  pinMode(scanInput, INPUT);
+  pinModeFast(resetInput, INPUT);
+  pinModeFast(scanInput, INPUT);
 
-  pinMode(monoButton, INPUT);
-  pinMode(restButton, INPUT);
-  pinMode(duoButton, INPUT);
+  pinModeFast(monoButton, INPUT);
+  pinModeFast(restButton, INPUT);
+  pinModeFast(duoButton, INPUT);
 
-  pinMode(gateOutputLeft, OUTPUT);
-  pinMode(gateOutputRight, OUTPUT);
-  pinMode(gateOutputAll, OUTPUT);
+  pinModeFast(gateOutputLeft, OUTPUT);
+  pinModeFast(gateOutputRight, OUTPUT);
+  pinModeFast(gateOutputAll, OUTPUT);
 
-  digitalWrite(gateOutputLeft, 0);
-  digitalWrite(gateOutputRight, 0);
-  digitalWrite(gateOutputAll, 0);
+  digitalWriteFast(gateOutputLeft, 0);
+  digitalWriteFast(gateOutputRight, 0);
+  digitalWriteFast(gateOutputAll, 0);
 
-  pinMode(allSelectorA, OUTPUT);
-  pinMode(allSelectorB, OUTPUT);
-  pinMode(allSelectorC, OUTPUT);
-  pinMode(allSelectorD, OUTPUT);
+  pinModeFast(allSelectorA, OUTPUT);
+  pinModeFast(allSelectorB, OUTPUT);
+  pinModeFast(allSelectorC, OUTPUT);
+  pinModeFast(allSelectorD, OUTPUT);
 
-  digitalWrite(allSelectorA, 1);
-  digitalWrite(allSelectorB, 1);
-  digitalWrite(allSelectorC, 1);
-  digitalWrite(allSelectorD, 1);
+  digitalWriteFast(allSelectorA, 1);
+  digitalWriteFast(allSelectorB, 1);
+  digitalWriteFast(allSelectorC, 1);
+  digitalWriteFast(allSelectorD, 1);
 
   analogReadResolution(12);
 
