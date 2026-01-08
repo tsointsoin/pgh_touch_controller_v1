@@ -1,6 +1,7 @@
 # VL1 Touch Controller Firmware
 
 This repository contains the source code for the firmware of the VL1 Touch Controller, a Eurorack module. The firmware is Arduino-based and was originally developed for internal use by the module's creators.
+In this fork, so far, all the digitalWrite/digitalRead/pinMode have been replaced by their 'Fast' counterpart using the digitalWriteFast library. This was to try to get a more steady clock but unfortunately jittering is still present.
 
 https://pittsburghmodular.com/lifeforms-touch-controller
 
