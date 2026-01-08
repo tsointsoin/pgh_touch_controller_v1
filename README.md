@@ -35,11 +35,11 @@ This firmware was shared by the company in response to a community request for o
 1. **Download the Code:** Clone this repository or download `tcFirmware_vl.ino`.
 2. **Arduino IDE Setup:**
    - Open the `.ino` file in the Arduino IDE.
-   - Install the CapacitiveSensor library via the Library Manager (Search for "CapacitiveSensor").
-   - Select "Arduino Due (Native USB Port)" as the board.
+   - Install the CapacitiveSensor and the digitalWriteFast libraries via the Library Manager (Search for "CapacitiveSensor" and "digitalWriteFast").
+   - Select "Arduino Due (Programming Port)" as the board.
    - Adjust any settings (e.g., `switchSamples`, `switchThreshold`) for calibration if needed.
 3. **Compile and Upload:**
-   - Verify and upload to your Arduino Mega connected to the module.
+   - Verify and upload to your Arduino DUE connected to the module.
    - Note: The code uses `analogReadResolution(12)` for 12-bit ADC resolution.
 4. **Calibration:** The firmware auto-calibrates capacitive sensors on startup. Touch thresholds and smoothing can be tweaked in the variables section (e.g., `switchThreshold = 400`).
 5. **Testing:** Use an external clock signal on pin 68 for sequencing. Monitor outputs via oscilloscope or multimeter.
